@@ -8,7 +8,7 @@ Tasks:
 
 - Finding Distance from Camera to Object (status: debugging)
 - Finding angle of distortion (Status: work in progress)
-- edge detection (To do)
-- morphology (To do)
+- Edge detection (To do)
+- Morphology (To do)
 
-Sources OpenCV
+Sources: OpenCV
