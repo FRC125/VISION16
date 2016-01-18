@@ -1,0 +1,52 @@
+from PixelWidth import *
+
+KNOWN_WIDTH = 20
+KNOWN_DISTANCE = 24
+IMAGES = ['2ft.jpg', '4ft.jpg', '6ft.jpg', 'tilt.jpg']
+
+class Runner(calculateDistance):
+
+
+    def calculateFocalLength(self):
+                #FOCAL LENGTH = (w x KNOWN_DISTANCE) / KNOWN_WIDTH
+                return (initialIm.w*KNOWN_DISTANCE)/KNOWN_WIDTH
+
+    def calculateDistance(self):
+                #Distance = (KnownWidth x FocalLength)/pixel width
+                return (KNOWN_WIDTH * FOCAL_LENGTH)/self.w
+
+
+    
+initialIm = Runner(IMAGES[0])
+FOCAL_LENGTH = initialIm.calculateFocalLength()
+finalIm = Runner(IMAGES[1])
+w,h = initialIm.computeHeightWidth()
+
+
+
+print "finalpwidth: " + str(finalIm.w)
+print "initialpwidth" + str(initialIm.w)
+print "focalLength " + str(FOCAL_LENGTH)
+
+print str()
+
+
+Distance = finalIm.calculateDistance()
+
+print "Distance: " + str(Distance)
+
+
+
+
+##           cv2.imshow("hello", initialIm.im)
+##           cv2.waitKey(0)
+##           cv2.destroyAllWindows()
+
+## Email to jandresgarcia513@gmail.com <3
+
+
+
+   
+
+           
+ 
