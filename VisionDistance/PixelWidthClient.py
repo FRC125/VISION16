@@ -1,7 +1,11 @@
 from PixelWidth import *
 
+
 KNOWN_WIDTH = 20
 KNOWN_DISTANCE = 24
+
+#Store the actual Known width and height of the object as constants. 
+
 IMAGES = ['2ft.jpg', '4ft.jpg', '6ft.jpg', 'tilt.jpg']
 
 #Inialize Array to store the paths to the pictures (ex: IMAGES = ['pathToFirstPic.jpg','pathToSecondPic.jpg', 'soOnAnSoForth.jpg'])
