@@ -1,6 +1,6 @@
 import numpy as np
 import cv2
-
+##Specify file path for pic
 im = cv2.imread("OnBoard.jpg")
 im = cv2.resize(im, (1000,700))
 
