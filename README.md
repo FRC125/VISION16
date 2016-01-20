@@ -1,14 +1,14 @@
 # VISION16
 
 
-Vision 2016 Library 
+Vision 2016 Library (Python)
 
 
 Tasks: 
 
-- Finding Distance from Camera to Object (status: debugging)
+- Finding Distance from Camera to Object (status: debugging, still some issues with output)
 - Finding angle of distortion (Status: work in progress)
-- edge detection (To do)
-- morphology (To do)
+- Edge detection (To do)
+- Morphology (To do)
 
-Sources OpenCV
+Sources: OpenCV

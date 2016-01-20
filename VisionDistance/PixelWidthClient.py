@@ -1,8 +1,16 @@
 from PixelWidth import *
 
+
 KNOWN_WIDTH = 20
 KNOWN_DISTANCE = 24
+
+#Store the actual Known width and height of the object as constants. 
+
 IMAGES = ['2ft.jpg', '4ft.jpg', '6ft.jpg', 'tilt.jpg']
+
+#Inialize Array to store the paths to the pictures (ex: IMAGES = ['pathToFirstPic.jpg','pathToSecondPic.jpg', 'soOnAnSoForth.jpg'])
+#No need to specify path if pictures are in the same directory as the code 
+
 
 class Runner(calculateDistance):
 
@@ -41,8 +49,6 @@ print "Distance: " + str(Distance)
 ##           cv2.imshow("hello", initialIm.im)
 ##           cv2.waitKey(0)
 ##           cv2.destroyAllWindows()
-
-## Email to jandresgarcia513@gmail.com <3
 
 
 
