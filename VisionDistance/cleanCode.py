@@ -35,30 +35,35 @@ def getCorners(binImage):
         if len(corners) == 4:
             return corners
         
-def getHeightandWidth(image):
+def getHeightandWidth(image,draw):
 
     corners = getCorners(image)
     
-    x1,y1 = corners[0]
-    x2,y2 = point2
-
+    p1 = corners[0]
+    p2 = corners[1]
+    x1 = p1[0][0]
+    y1 = p1[0][1]
+    x2 = p2[0][0]
+    y2 = p2[0][1]
     height = abs(y1-y2)
     width = abs(x1-x2)
+    cv2.fillConvexPoly(draw, corners, 1)
 
-    return (height,width,x1,y1)
+    return height,width,x1,y1
 
 def distanceBetweenTwoPoints(point1,point2):
     x1,y1 = point1
     x2,y2 = point2
 
     return math.sqrt(math.pow((math.abs(x1-x2)),2) + math.pow((math.abs(y1-y2))))
-def getPixelWidth(image):
-    _,w,_,x1,_ = getHeightandWidth(image)
+def getPixelWidth(image,draw):
+    _,w,_,x1 = getHeightandWidth(image,draw)
     width = len(image[0])
     return float(width) / 2 - (x1+ float(w)/2)
 
 #Mask bit color? Do you want to remove noisy
-im = resize(cv2.imread("graphics/green4.JPG"),1000,700)
+im = cv2.imread("green4.JPG")
+im = resize(im,1000,700)
 mask = bit_color(im, LOW_GREEN, HIGH_GREEN)
 corners = []
 for point in getCorners(mask):
@@ -69,8 +74,7 @@ for point in getCorners(mask):
 for corner in corners:
     cv2.circle(im,corner,20,(0,255,0))
 
-
-
+getPixelWidth(mask,im)
 cv2.imshow("im", im)
 
 
