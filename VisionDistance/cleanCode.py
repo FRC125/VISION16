@@ -45,14 +45,17 @@ def getHeightandWidth(image):
     height = abs(y1-y2)
     width = abs(x1-x2)
 
-    return (height,width)
+    return (height,width,x1,y1)
 
 def distanceBetweenTwoPoints(point1,point2):
     x1,y1 = point1
     x2,y2 = point2
 
     return math.sqrt(math.pow((math.abs(x1-x2)),2) + math.pow((math.abs(y1-y2))))
-
+def getPixelWidth(image):
+    _,w,_,x1,_ = getHeightandWidth(image)
+    width = len(image[0])
+    return float(width) / 2 - (x1+ float(w)/2)
 
 #Mask bit color? Do you want to remove noisy
 im = resize(cv2.imread("graphics/green4.JPG"),1000,700)
