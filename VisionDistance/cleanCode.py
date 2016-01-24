@@ -1,10 +1,12 @@
 import numpy as np
 import cv2
 import math
+
+
 LOW_GREEN = [50, 100, 100]
 HIGH_GREEN = [90, 255, 255]
-#BGR image, HSV colors ->??????????
 
+#BGR image, HSV colors ->??????????
 def bit_color(image, color_low, color_high) :
     hsv = cv2.cvtColor (image, cv2.COLOR_BGR2HSV)
     l_green = np.array(color_low)
@@ -44,11 +46,16 @@ def getHeightandWidth(image):
     width = abs(x1-x2)
 
     return (height,width)
-        
+
+def distanceBetweenTwoPoints(point1,point2):
+    x1,y1 = point1
+    x2,y2 = point2
+
+    return math.sqrt(math.pow((math.abs(x1-x2)),2) + math.pow((math.abs(y1-y2))))
 
 
 #Mask bit color? Do you want to remove noisy
-im = resize(cv2.imread("graphics/green4.jpg"),1000,700)
+im = resize(cv2.imread("graphics/green4.JPG"),1000,700)
 mask = bit_color(im, LOW_GREEN, HIGH_GREEN)
 corners = []
 for point in getCorners(mask):
@@ -61,7 +68,6 @@ for corner in corners:
 
 
 
-#cv2.imshow("Mask", mask)
 cv2.imshow("im", im)
 
 
