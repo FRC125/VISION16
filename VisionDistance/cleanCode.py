@@ -60,6 +60,8 @@ def getPixelWidth(image):
     _,w,_,x1 = getHeightandWidth(image)
     width = len(image[0])
     return float(width) / 2 - (x1+ float(w)/2)
+def getAngle(dist, x):
+    return math.atan(float(x)/float(dist))
 
 #Mask bit color? Do you want to remove noisy
 im = cv2.imread("green4.JPG")
