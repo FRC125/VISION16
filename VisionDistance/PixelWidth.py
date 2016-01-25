@@ -8,6 +8,7 @@ class calculateDistance:
         w = 0
         h = 0      
 #declare known dimensions (in meters)
+
         def __init__(self, im):
                 self.im = cv2.imread(im)
                 #self.imageThreshold(self.imageResize(self.im))
@@ -20,7 +21,6 @@ class calculateDistance:
                 #Resize using the scale to preserve aspect ratio
                 scale = min(1000 / len(self.im[0]) , 700 / len(self.im))
                 self.im = cv2.resize(self.im,(int(math.floor(len(self.im[0]) * scale)), int(math.floor(len(self.im) * scale))))
-
 
 
         def imageThreshold(self, im):
@@ -43,14 +43,15 @@ class calculateDistance:
         def computeHeightWidth(self):
                 height = 0
                 width = 0
+                
                 for contour in self.contours:
                         x,y,w,h = cv2.boundingRect(contour)
+                        
                         if(h>height and w>width):
                                 height = h
                                 width = w
                         cv2.rectangle(self.im,(x,y),(x+w,y+h),(0,0,255),2)
-                        
-
+                
                 #print contours
                 #print "Height: " + str(height)
                 #print "Width: " + str(width)
