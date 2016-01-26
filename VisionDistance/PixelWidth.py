@@ -48,10 +48,10 @@ class calculateDistance:
                         if(h>height and w>width):
                                 height = h
                                 width = w
-                        cv2.rectangle(self.im,(x,y),(x+w,y+h),(0,0,255),2)
-        
+                 cv2.rectangle(self.im,(x,y),(x+w,y+h),(0,0,255),2)
                 #print contours
                 #print "Height: " + str(height)
                 #print "Width: " + str(width)
+                
                 
                 return(height,width)
