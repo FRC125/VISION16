@@ -35,11 +35,9 @@ class calculateDistance:
                 contours, hierarcy = cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
 
                 return contours
-        
 
-#Find the Largest contour (Our object), and draw a rectangle around it
-#Compute the height and width of that rectangle (in pixels)
-
+        #Find the Largest contour (Our object), and draw a rectangle around it
+        #Compute the height and width of that rectangle (in pixels)
         def computeHeightWidth(self):
                 height = 0
                 width = 0
@@ -51,9 +49,9 @@ class calculateDistance:
                                 height = h
                                 width = w
                         cv2.rectangle(self.im,(x,y),(x+w,y+h),(0,0,255),2)
-                
+        
                 #print contours
                 #print "Height: " + str(height)
                 #print "Width: " + str(width)
-
+                
                 return(height,width)
