@@ -6,9 +6,9 @@ import math
 class calculateDistance:
         contours = []
         w = 0
-        h = 0      
-#declare known dimensions (in meters)
-
+        h = 0     
+        
+        #declare known dimensions (in meters)
         def __init__(self, im):
                 self.im = cv2.imread(im)
                 #self.imageThreshold(self.imageResize(self.im))
@@ -16,7 +16,7 @@ class calculateDistance:
                 self.contours = self.imageFindContours(self.im)
                 self.w, self.h = self.computeHeightWidth()
                 
-
+                
         def imageResize(self, im):
                 #Resize using the scale to preserve aspect ratio
                 scale = min(1000 / len(self.im[0]) , 700 / len(self.im))
