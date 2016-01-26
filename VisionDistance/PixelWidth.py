@@ -4,9 +4,9 @@ import math
 
 
 class calculateDistance:
-        contours = []
-        w = 0
-        h = 0     
+                contours = []
+                w = 0
+                h = 0     
         
         #declare known dimensions (in meters)
         def __init__(self, im):
@@ -46,9 +46,10 @@ class calculateDistance:
                         x,y,w,h = cv2.boundingRect(contour)
                         
                         if(h>height and w>width):
-                                height = h
-                                width = w
-                 cv2.rectangle(self.im,(x,y),(x+w,y+h),(0,0,255),2)
+                                        height = h
+                                        width = w
+                                
+                cv2.rectangle(self.im,(x,y),(x+w,y+h),(0,0,255),2)
                 #print contours
                 #print "Height: " + str(height)
                 #print "Width: " + str(width)
