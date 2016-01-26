@@ -41,10 +41,3 @@ print "Distance: " + str(Distance)
 ##           cv2.imshow("hello", initialIm.im)
 ##           cv2.waitKey(0)
 ##           cv2.destroyAllWindows()
-
-
-
-   
-
-           
- 
