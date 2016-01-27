@@ -5,9 +5,9 @@ import math
 
 LOW_GREEN = [50, 100, 100]
 HIGH_GREEN = [90, 255, 255]
-#BGR image, HSV colors ->??????????
 
-def bit_color(image, color_low, color_high):
+#BGR image, HSV colors ->??????????
+def bit_color(image, color_low, color_high) :
     hsv = cv2.cvtColor (image, cv2.COLOR_BGR2HSV)
     l_green = np.array(color_low)
     u_green = np.array(color_high)
@@ -21,11 +21,7 @@ def resize(im, width, height):
     return cv2.resize(im,(int(math.floor(len(im[0]) * scale)), int(math.floor(len(im) * scale))))
 
 def getContours(image):
-    # Depending on your version of opencv and python, findContours either returns 
-    # (im, contours, hierarchy), or just (contours, hierarchy)
-    # in both cases, contours is second to last.
-    contours_tuple = cv2.findContours(image,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-    contours = contours_tuple[-2] # get second to last item
+    contours, hierarchy = cv2.findContours(image,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
     contours = sorted(contours, key=cv2.contourArea, reverse=True)
     return contours
 
@@ -34,10 +30,8 @@ def getCorners(binImage):
     contours = getContours(binImage)
     convexHull = cv2.convexHull(contours[0])
     #hull = cv2.approxPolyDP(convexHull,1,True)
-    
     for i in range(100):
         corners = cv2.approxPolyDP(convexHull, i, True)
-        
         if len(corners) == 4:
             return corners
         
@@ -53,28 +47,41 @@ def getHeightandWidth(image):
     y2 = p2[0][1]
     height = abs(y1-y2)
     width = abs(x1-x2)
-    
     #cv2.fillConvexPoly(draw, corners, 1)
+
     return height,width,x1,y1
+
+def getArea(corners):
+    orders = order_points(np.array(corners))
+    
+    tl = orders[0]
+    tr = orders[1]
+    br = orders[2]
+    bl = orders[3]
+    
+    x1 = (tl[0] + bl[0]) / 2
+    x2 = (tr[0] + br[0]) / 2
+    y1 = (tl[1] + tr[1]) / 2
+    y2 = (bl[1] + br[1]) / 2
+    dx = x1 - x2
+    dy = y1 - y2
+    return dx * dy
 
 def distanceBetweenTwoPoints(point1,point2):
     x1,y1 = point1
     x2,y2 = point2
 
     return math.sqrt(math.pow((math.abs(x1-x2)),2) + math.pow((math.abs(y1-y2))))
-    
 def getPixelWidth(image):
     _,w,_,x1 = getHeightandWidth(image)
     width = len(image[0])
     return float(width) / 2 - (x1+ float(w)/2)
-    
 def getAngle(dist, x):
     return math.atan(float(x)/float(dist))
 
 #NumpyArray -> NumpyArray
 def order_points(pts):
     print(pts)
-    
     # initialzie a list of coordinates that will be ordered
     # such that the first entry in the list is the top-left,
     # the second entry is the top-right, the third is the
@@ -106,7 +113,6 @@ im = cv2.imread("green4.JPG")
 im = resize(im,1000,700)
 mask = bit_color(im, LOW_GREEN, HIGH_GREEN)
 corners = []
-
 for point in getCorners(mask):
     point = (point[0][0], point[0][1])
     corners.append(point)
@@ -116,7 +122,9 @@ for corner in corners:
     cv2.circle(im,corner,20,(0,255,0))
 
 getPixelWidth(mask)
+print(getArea(corners))
 cv2.imshow("im", im)
+
 
 
 
