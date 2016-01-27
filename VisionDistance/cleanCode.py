@@ -22,7 +22,11 @@ def resize(im, width, height):
     return cv2.resize(im,(int(math.floor(len(im[0]) * scale)), int(math.floor(len(im) * scale))))
 
 def getContours(image):
-    contours, hierarchy = cv2.findContours(image,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+    # Depending on your version of opencv and python, findContours either returns 
+    # (im, contours, hierarchy), or just (contours, hierarchy)
+    # in both cases, contours is second to last.
+    contours_tuple = cv2.findContours(image,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+    contours = contours_tuple[-2] # get second to last item
     contours = sorted(contours, key=cv2.contourArea, reverse=True)
     return contours
 
