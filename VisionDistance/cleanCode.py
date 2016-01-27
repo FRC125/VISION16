@@ -34,7 +34,29 @@ def getCorners(binImage):
         corners = cv2.approxPolyDP(convexHull, i, True)
         if len(corners) == 4:
             return corners
-        
+def averageDxDy(binImage1,binImage2):
+    #calculate distance between the corners, then return the average
+    #^This gives the maginutude and direction (-/+) of your translation
+
+    image1Corners = np.array(getCorners(binImage1))
+    image2Corners = np.array(getCorners(binImage2))
+
+    dXdY = image2Corners-image1Corners
+    Cols = dXdY.shape
+    dX = 0.0
+    print(dXdY)
+    for i in range(dXdY.shape[0]):
+        dX += dXdY[i][0][0]
+
+    dXavg = dX/4
+
+    dY = 0.0
+    for i in range(dXdY.shape[1]):
+        dY += dXdY[i][0][1]
+    dYavg = dY/4
+    
+    return (dXavg,dYavg)
+
 def getHeightandWidth(image):
 
     corners = getCorners(image)
@@ -65,25 +87,27 @@ def getArea(corners):
     y2 = (bl[1] + br[1]) / 2
     dx = x1 - x2
     dy = y1 - y2
-    return dx * dy
+    return (dx * dy)
 #four points(current, reference) -> proportion(float)
-def areaProportion(current, reference)
+def areaProportion(current,reference):
     return getArea(current)/getArea(reference)
+
 def distanceBetweenTwoPoints(point1,point2):
     x1,y1 = point1
     x2,y2 = point2
-
     return math.sqrt(math.pow((math.abs(x1-x2)),2) + math.pow((math.abs(y1-y2))))
+
 def getPixelWidth(image):
     _,w,_,x1 = getHeightandWidth(image)
     width = len(image[0])
     return float(width) / 2 - (x1+ float(w)/2)
+
 def getAngle(dist, x):
     return math.atan(float(x)/float(dist))
 
 #NumpyArray -> NumpyArray
 def order_points(pts):
-    print(pts)
+    #print(pts)
     # initialzie a list of coordinates that will be ordered
     # such that the first entry in the list is the top-left,
     # the second entry is the top-right, the third is the
@@ -93,7 +117,7 @@ def order_points(pts):
     # the top-left point will have the smallest sum, whereas
     # the bottom-right point will have the largest sum
     s = pts.sum(axis = 1)
-    print(s.flatten())
+    #print(s.flatten())
     rect[0] = pts[np.argmin(s)]
     rect[2] = pts[np.argmax(s)]
     
@@ -110,7 +134,7 @@ def order_points(pts):
     return rect
 
     
-#Mask bit color? Do you want to remove noisy
+#Mask bit color? Remove noise
 im = cv2.imread("green4.JPG")
 im = resize(im,1000,700)
 mask = bit_color(im, LOW_GREEN, HIGH_GREEN)
@@ -118,13 +142,13 @@ corners = []
 for point in getCorners(mask):
     point = (point[0][0], point[0][1])
     corners.append(point)
-    print(point)
+    #print(point)
 
 for corner in corners:
     cv2.circle(im,corner,20,(0,255,0))
-
+    
 getPixelWidth(mask)
-print(getArea(corners))
+#print(getArea(corners))
 cv2.imshow("im", im)
 
 
