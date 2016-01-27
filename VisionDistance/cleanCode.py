@@ -91,7 +91,10 @@ def getArea(corners):
 #four points(current, reference) -> proportion(float)
 def areaProportion(current,reference):
     return getArea(current)/getArea(reference)
-
+    
+def calcDist(current, reference, knowDist):
+    return areaProportion(current, reference) * knowDist
+    
 def distanceBetweenTwoPoints(point1,point2):
     x1,y1 = point1
     x2,y2 = point2
