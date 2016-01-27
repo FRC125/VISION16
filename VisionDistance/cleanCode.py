@@ -29,11 +29,14 @@ def getContours(image):
 def getCorners(binImage):
     contours = getContours(binImage)
     convexHull = cv2.convexHull(contours[0])
+    
     #hull = cv2.approxPolyDP(convexHull,1,True)
     for i in range(100):
         corners = cv2.approxPolyDP(convexHull, i, True)
-        if len(corners) == 4:
-            return corners
+        
+            if len(corners) == 4:
+                return corners
+            
 def averageDxDy(binImage1,binImage2):
     #calculate distance between the corners, then return the average
     #^This gives the maginutude and direction (-/+) of your translation
@@ -53,7 +56,7 @@ def averageDxDy(binImage1,binImage2):
     dY = 0.0
     for i in range(dXdY.shape[1]):
         dY += dXdY[i][0][1]
-    dYavg = dY/4
+            dYavg = dY/4
     
     return (dXavg,dYavg)
 
@@ -72,9 +75,9 @@ def getHeightandWidth(image):
     #cv2.fillConvexPoly(draw, corners, 1)
 
     return height,width,x1,y1
-#four points(corners) -> float
+    #four points(corners) -> float
 def getArea(corners):
-    orders = order_points(np.array(corners))
+        orders = order_points(np.array(corners))
     
     tl = orders[0]
     tr = orders[1]
@@ -88,6 +91,7 @@ def getArea(corners):
     dx = x1 - x2
     dy = y1 - y2
     return (dx * dy)
+    
 #four points(current, reference) -> proportion(float)
 def areaProportion(current,reference):
     return getArea(current)/getArea(reference)
@@ -132,16 +136,15 @@ def order_points(pts):
     diff = np.diff(pts, axis = 1)
     rect[1] = pts[np.argmin(diff)]
     rect[3] = pts[np.argmax(diff)]
-
     # return the ordered coordinates
     return rect
 
     
-#Mask bit color? Remove noise
-im = cv2.imread("green4.JPG")
-im = resize(im,1000,700)
-mask = bit_color(im, LOW_GREEN, HIGH_GREEN)
-corners = []
+    #Mask bit color? Remove noise
+    im = cv2.imread("green4.JPG")
+    im = resize(im,1000,700)
+    mask = bit_color(im, LOW_GREEN, HIGH_GREEN)
+    corners = []
 for point in getCorners(mask):
     point = (point[0][0], point[0][1])
     corners.append(point)
@@ -150,9 +153,9 @@ for point in getCorners(mask):
 for corner in corners:
     cv2.circle(im,corner,20,(0,255,0))
     
-getPixelWidth(mask)
-#print(getArea(corners))
-cv2.imshow("im", im)
+    getPixelWidth(mask)
+    #print(getArea(corners))
+    cv2.imshow("im", im)
 
 
 
