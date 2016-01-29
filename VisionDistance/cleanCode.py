@@ -5,6 +5,7 @@ import math
 
 LOW_GREEN = [50, 100, 100]
 HIGH_GREEN = [90, 255, 255]
+KNOWN_DISTANCE = 0.5
 
 #BGR image, HSV colors ->??????????
 def bit_color(image, color_low, color_high) :
@@ -34,7 +35,7 @@ def getCorners(binImage):
     for i in range(100):
         corners = cv2.approxPolyDP(convexHull, i, True)
         
-            if len(corners) == 4:
+        if len(corners) == 4:
                 return corners
             
 def averageDxDy(binImage1,binImage2):
@@ -56,7 +57,7 @@ def averageDxDy(binImage1,binImage2):
     dY = 0.0
     for i in range(dXdY.shape[1]):
         dY += dXdY[i][0][1]
-            dYavg = dY/4
+        dYavg = dY/4
     
     return (dXavg,dYavg)
 
@@ -79,18 +80,18 @@ def getHeightandWidth(image):
 def getArea(corners):
         orders = order_points(np.array(corners))
     
-    tl = orders[0]
-    tr = orders[1]
-    br = orders[2]
-    bl = orders[3]
-    
-    x1 = (tl[0] + bl[0]) / 2
-    x2 = (tr[0] + br[0]) / 2
-    y1 = (tl[1] + tr[1]) / 2
-    y2 = (bl[1] + br[1]) / 2
-    dx = x1 - x2
-    dy = y1 - y2
-    return (dx * dy)
+        tl = orders[0]
+        tr = orders[1]
+        br = orders[2]
+        bl = orders[3]
+        
+        x1 = (tl[0] + bl[0]) / 2
+        x2 = (tr[0] + br[0]) / 2
+        y1 = (tl[1] + tr[1]) / 2
+        y2 = (bl[1] + br[1]) / 2
+        dx = x1 - x2
+        dy = y1 - y2
+        return (dx * dy)
     
 #four points(current, reference) -> proportion(float)
 def areaProportion(current,reference):
@@ -139,25 +140,48 @@ def order_points(pts):
     # return the ordered coordinates
     return rect
 
+def calculateDistance(initialMask,finalMask):
+    _,initialPixelWidth,_,_ = getHeightandWidth(initialMask)
+    _,finalPixelWidth,_,_ = getHeightandWidth(finalMask)
+    ratio = (float(initialPixelWidth)/float(finalPixelWidth))
+    return KNOWN_DISTANCE/(1-ratio)
     
-    #Mask bit color? Remove noise
-    im = cv2.imread("green4.JPG")
-    im = resize(im,1000,700)
-    mask = bit_color(im, LOW_GREEN, HIGH_GREEN)
-    corners = []
-for point in getCorners(mask):
+#Read and resize the two images
+initialIm = resize(cv2.imread("green4.JPG"),1000,700)
+finalIm = resize(cv2.imread("dist3.JPG"),1000,700)
+
+#Thresh and remove noise
+initialMask = bit_color(initialIm, LOW_GREEN, HIGH_GREEN)
+finalMask = bit_color(finalIm, LOW_GREEN, HIGH_GREEN)
+
+initialCorners = []
+finalCorners = []
+
+for point in getCorners(initialMask):
     point = (point[0][0], point[0][1])
-    corners.append(point)
+    initialCorners.append(point)
     #print(point)
 
-for corner in corners:
-    cv2.circle(im,corner,20,(0,255,0))
-    
-    getPixelWidth(mask)
-    #print(getArea(corners))
-    cv2.imshow("im", im)
+for corner in initialCorners:
+    cv2.circle(initialIm,corner,20,(0,255,0))
+
+for point in getCorners(finalMask):
+    point = (point[0][0], point[0][1])
+    finalCorners.append(point)
+    #print(point)
+
+for corner in finalCorners:
+    cv2.circle(finalIm,corner,20,(0,255,0))
+
+#getPixelWidth(mask)
+#print(getArea(corners))
+
+cv2.imshow("im", initialIm)
+cv2.imshow("im2", finalIm)
 
 
+Distance = calculateDistance(initialMask, finalMask)
+print Distance
 
 
 cv2.waitKey(0)
