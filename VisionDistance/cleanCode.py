@@ -7,12 +7,13 @@ LOW_GREEN = [50, 100, 100]
 HIGH_GREEN = [90, 255, 255]
 KNOWN_DISTANCE = 0.5
 
-# BGR image, HSV colors ->??????????
-def bit_color(image, color_low, color_high) :
-    hsv = cv2.cvtColor (image, cv2.COLOR_BGR2HSV)
+
+def bit_color(image, color_low, color_high):
+    # BGR image, HSV colors ->??????????
+    hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     l_green = np.array(color_low)
     u_green = np.array(color_high)
-    mask = cv2.inRange (hsv, l_green, u_green)
+    mask = cv2.inRange(hsv, l_green, u_green)
 
     # ret,thresh = cv2.threshold(mask,0,255,0)
     return (mask)
