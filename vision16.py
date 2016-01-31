@@ -9,3 +9,5 @@ ip = 127.0.0.1
 NetworkTable.setIPAddress(ip)
 NetworkTable.setClientMode()
 NetworkTable.initialize()
+
+sd = NetworkTable.getTable("vision")
