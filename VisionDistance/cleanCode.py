@@ -7,18 +7,18 @@ LOW_GREEN = [50, 100, 100]
 HIGH_GREEN = [90, 255, 255]
 KNOWN_DISTANCE = 0.5
 
-#BGR image, HSV colors ->??????????
+# BGR image, HSV colors ->??????????
 def bit_color(image, color_low, color_high) :
     hsv = cv2.cvtColor (image, cv2.COLOR_BGR2HSV)
     l_green = np.array(color_low)
     u_green = np.array(color_high)
     mask = cv2.inRange (hsv, l_green, u_green)
 
-    #ret,thresh = cv2.threshold(mask,0,255,0)
+    # ret,thresh = cv2.threshold(mask,0,255,0)
     return (mask)
 
 def resize(im, width, height) :
-    #Resize using the scale to preserve aspect ratio
+    # Resize using the scale to preserve aspect ratio
     scale = min(float(width) / len(im[0]) , float(height) / len(im))
     return cv2.resize(im,(int(math.floor(len(im[0]) * scale)), int(math.floor(len(im) * scale))))
 
@@ -27,12 +27,12 @@ def getContours(image) :
     contours = sorted(contours, key=cv2.contourArea, reverse=True)
     return contours
 
-#Binary Image (mask) ---> Four points(corners)
+# Binary Image (mask) ---> Four points(corners)
 def getCorners(binImage) :
     contours = getContours(binImage)
     convexHull = cv2.convexHull(contours[0])
 
-    #hull = cv2.approxPolyDP(convexHull,1,True)
+    # hull = cv2.approxPolyDP(convexHull,1,True)
     for i in range(100) :
         corners = cv2.approxPolyDP(convexHull, i, True)
 
@@ -40,8 +40,8 @@ def getCorners(binImage) :
                 return corners
 
 def averageDxDy(binImage1,binImage2) :
-    #calculate distance between the corners, then return the average
-    #^This gives the maginutude and direction (-/+) of your translation
+    # calculate distance between the corners, then return the average
+    # ^This gives the maginutude and direction (-/+) of your translation
 
     image1Corners = np.array(getCorners(binImage1))
     image2Corners = np.array(getCorners(binImage2))
@@ -63,7 +63,7 @@ def averageDxDy(binImage1,binImage2) :
     return (dXavg,dYavg)
 
 def getHeightandWidth(image) :
-     #cv2.fillConvexPoly(draw, corners, 1)
+     # cv2.fillConvexPoly(draw, corners, 1)
     corners = getCorners(image)
     p1 = corners[0]
     p2 = corners[1]
@@ -76,7 +76,7 @@ def getHeightandWidth(image) :
 
     return height,width,x1,y1
 
-#four points(corners) -> float
+# four points(corners) -> float
 def getArea(corners) :
     orders = order_points(np.array(corners))
 
@@ -94,7 +94,7 @@ def getArea(corners) :
 
     return (dx * dy)
 
-#four points(current, reference) -> proportion(float)
+# four points(current, reference) -> proportion(float)
 def areaProportion(current,reference) :
     return getArea(current)/getArea(reference)
 
@@ -114,9 +114,9 @@ def getPixelWidth(image) :
 def getAngle(dist, x) :
     return math.atan(float(x)/float(dist))
 
-#NumpyArray -> NumpyArray
+# NumpyArray -> NumpyArray
 def order_points(pts) :
-    #print(pts)
+    # print(pts)
     # initialzie a list of coordinates that will be ordered
     # such that the first entry in the list is the top-left,
     # the second entry is the top-right, the third is the
@@ -147,11 +147,11 @@ def calculateDistance(initialMask,finalMask) :
     ratio = (float(initialPixelWidth)/float(finalPixelWidth))
     return KNOWN_DISTANCE/(1-ratio)
 
-#Read and resize the two images
+# Read and resize the two images
 initialIm = resize(cv2.imread("green4.JPG"),1000,700)
 finalIm = resize(cv2.imread("dist3.JPG"),1000,700)
 
-#Thresh and remove noise
+# Thresh and remove noise
 initialMask = bit_color(initialIm, LOW_GREEN, HIGH_GREEN)
 finalMask = bit_color(finalIm, LOW_GREEN, HIGH_GREEN)
 
@@ -161,7 +161,7 @@ finalCorners = []
 for point in getCorners(initialMask) :
     point = (point[0][0], point[0][1])
     initialCorners.append(point)
-    #print(point)
+    # print(point)
 
 for corner in initialCorners :
     cv2.circle(initialIm,corner,20,(0,255,0))
@@ -169,13 +169,13 @@ for corner in initialCorners :
 for point in getCorners(finalMask) :
     point = (point[0][0], point[0][1])
     finalCorners.append(point)
-    #print(point)
+    # print(point)
 
 for corner in finalCorners :
     cv2.circle(finalIm,corner,20,(0,255,0))
 
-#getPixelWidth(mask)
-#print(getArea(corners))
+# getPixelWidth(mask)
+# print(getArea(corners))
 cv2.imshow("im", initialIm)
 cv2.imshow("im2", finalIm)
 
