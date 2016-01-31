@@ -19,4 +19,5 @@ while True:
         print('enableVision: ', enableVision)
     except KeyError:
         print('enableVision: N/A')
-    
+    if enableVision:
+        sd.putNumber('visionDistance', 100) # send the distance from opencv
