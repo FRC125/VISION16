@@ -18,10 +18,11 @@ def bit_color(image, color_low, color_high):
     # ret,thresh = cv2.threshold(mask,0,255,0)
     return (mask)
 
-def resize(im, width, height) :
+
+def resize(im, width, height):
     # Resize using the scale to preserve aspect ratio
-    scale = min(float(width) / len(im[0]) , float(height) / len(im))
-    return cv2.resize(im,(int(math.floor(len(im[0]) * scale)), int(math.floor(len(im) * scale))))
+    scale = min(float(width) / len(im[0]), float(height) / len(im))
+    return cv2.resize(im, (int(math.floor(len(im[0]) * scale)), int(math.floor(len(im) * scale))))
 
 def getContours(image) :
     contours, hierarchy = cv2.findContours(image,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
