@@ -91,7 +91,7 @@ def getArea(corners) :
     y2 = (bl[1] + br[1]) / 2
     dx = x1 - x2
     dy = y1 - y2
-    
+
     return (dx * dy)
 
 #four points(current, reference) -> proportion(float)
@@ -179,10 +179,8 @@ for corner in finalCorners :
 cv2.imshow("im", initialIm)
 cv2.imshow("im2", finalIm)
 
-
 Distance = calculateDistance(initialMask, finalMask)
 print Distance
-
 
 cv2.waitKey(0)
 cv2.destroyAllWindows()
