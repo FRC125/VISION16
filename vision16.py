@@ -11,3 +11,12 @@ NetworkTable.setClientMode()
 NetworkTable.initialize()
 
 sd = NetworkTable.getTable("vision")
+enableVision = True
+
+while True:
+    try:
+        enableVision = sd.getBoolean('enableVision')
+        print('enableVision: ', enableVision)
+    except KeyError:
+        print('enableVision: N/A')
+    
