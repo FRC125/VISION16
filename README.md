@@ -1,10 +1,9 @@
-# VISION16
-
+# VISION16 [![Build Status](https://travis-ci.org/FRC125/VISION16.svg?branch=master)](https://travis-ci.org/FRC125/VISION16)
 
 Vision 2016 Library (Python)
 
 
-Tasks: 
+Tasks:
 
 - Finding Distance from Camera to Object (status: debugging, still some issues with output)
 - Finding angle of distortion (Status: work in progress)
