@@ -111,10 +111,18 @@ def distanceBetweenTwoPoints(point1, point2):
 
 
 def getPixelWidth(image):
-    _, w, _, x1 = getHeightandWidth(image)
-    width = len(image[0])
+    _, w, x1, __ = getHeightandWidth(image)
+    width = len(image)
     return float(width) / 2 - (x1 + float(w)/2)
 
+def getObjectCenter(image):
+    _, w, x1, __ = getHeightandWidth(image)
+    return x1 + float(w)/2
+
+def compareObjectCenters(image, reference):
+    x = getObjectCenter(image)
+    x1 = getObjectCenter(reference)
+    return x1-x
 
 def getAngle(dist, x):
     return math.atan(float(x)/float(dist))
