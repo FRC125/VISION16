@@ -4,8 +4,8 @@ import math
 
 #LOW_GREEN = [50, 100, 100]
 #HIGH_GREEN = [90, 255, 255]
-LOW_GREEN = [0,0,250]
-HIGH_GREEN = [0,0,255]
+LOW_GREEN = [0,0,200]
+HIGH_GREEN = [100,255,255]
 
 #BGR image, HSV colors ---> masked image (no noise)
 def bit_color(image, color_low, color_high) :
@@ -29,14 +29,17 @@ def getContours(image):
 #Binary Image (mask) ---> Four points(corners)
 def getCorners(binImage):
     contours = getContours(binImage)
-    convexHull = cv2.convexHull(contours[0])
+    x = 0
+    while(x < len(contours) and not rejectShape(contours[x])):
+        x = x+1
+    if(not(x == len(contours))):
+        convexHull = cv2.convexHull(contours[x])
+        #hull = cv2.approxPolyDP(convexHull,1,True)
+        for i in range(100):
+            corners = cv2.approxPolyDP(convexHull, i, True)
+            if len(corners) == 4:
+                return corners.squeeze()
     
-    #hull = cv2.approxPolyDP(convexHull,1,True)
-    for i in range(100):
-        corners = cv2.approxPolyDP(convexHull, i, True)
-        
-        if len(corners) == 4:
-                return corners
 #Slope of two top Points -----> Angle 
 def getAngle(Slope):
     a = -21.537
@@ -70,7 +73,6 @@ def getSlope(OrderinitCorners):
     p2y = OrderinitCorners[1][1]
 
     return ((p2y-p1y)/(p2x-p1x))
-
 #NumpyArray of corners -----> NumpyArray of corners in order
 def order_points(pts):
     rect = np.zeros((4, 2), dtype = "float32")
@@ -91,10 +93,17 @@ def order_points(pts):
 #Masked Image, original Image ----> Draws corners on OriginalImage,returns the corners
 def drawCorners(maskedImage,binImage):
     drawnCorners = []
-    for point in getCorners(maskedImage):
-        point = (point[0][0], point[0][1])
-        drawnCorners.append(point)
-    for corner in drawnCorners:
-        cv2.circle(binImage,corner,20,(0,255,0))
+    try:
+        for point in getCorners(maskedImage):
+            drawnCorners.append(point)
+        for corner in drawnCorners:
+            cv2.circle(binImage,(corner[0],corner[1]),20,(0,255,0))
+        return drawnCorners
+    except:
+        return False
 
-    return drawnCorners
+def rejectShape(corners):
+    if(cv2.contourArea(corners) < 200):
+        return False
+    return True
+
