@@ -90,6 +90,15 @@ def order_points(pts):
     #return the ordered coordinates (Top Left = 1, Top Right = 2, Bottom Right = 3, Bottom Left = 4)
     return rect
 
+#Set of Ordered Points -----> x value of center line
+def getCenterLine(OrderedPoints):
+    w = getWidth(OrderedPoints)
+    center = OrderedPoints[3][0] + w/2
+    return center
+
+def distanceFromCenter(OrderedPoints):
+    return 350 - getCenterLine(OrderedPoints)
+
 #Masked Image, original Image ----> Draws corners on OriginalImage,returns the corners
 def drawCorners(maskedImage,binImage):
     drawnCorners = []
