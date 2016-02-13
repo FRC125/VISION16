@@ -11,7 +11,7 @@ initialMask = bit_color(im, LOW_GREEN, HIGH_GREEN)
 corners = drawCorners(initialMask,im)
 #Show the image
 cv2.imshow("im", im)
-
+#allows the code to not throw an error if the image does not contain a target
 try:
     OrderInitCorners = order_points(np.array(corners))
     GetHeightLeftRight(OrderInitCorners)
