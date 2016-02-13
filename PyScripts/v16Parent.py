@@ -101,9 +101,9 @@ def drawCorners(maskedImage,binImage):
         return drawnCorners
     except:
         return False
-
-def rejectShape(corners):
-    if(cv2.contourArea(corners) < 200):
+#Contour ---> returns Boolean if the contour is large enough
+def rejectShape(contour):
+    if(cv2.contourArea(contour) < 200):
         return False
     return True
 
