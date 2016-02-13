@@ -29,7 +29,7 @@ cv2.imwrite("test.jpg", im)
 OrderInitCorners = order_points(np.array(drawCorners(initialMask,im)))
 
 slope = getSlope(OrderInitCorners)
-width = getWidth(OrderInitCorners) * (103.0/186)
+width = getWidth(OrderInitCorners)
 theta = getAngle(slope)
 distance = getDistance(width,0)
 
