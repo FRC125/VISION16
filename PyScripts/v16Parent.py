@@ -3,10 +3,6 @@ import cv2
 import math
 
 
-class ImageNotDetectedException(Exception):
-    pass
-
-
 #LOW_GREEN = [50, 100, 100]
 #HIGH_GREEN = [90, 255, 255]
 LOW_GREEN = [0,0,200]
@@ -27,7 +23,10 @@ def resize(im, width, height):
 
 #image -----> array of contours
 def getContours(image):
-    contours, hierarchy = cv2.findContours(image,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+    try:
+        contours, hierarchy = cv2.findContours(image,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+    except:
+        img, contours, hierarchy = cv2.findContours(image,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)        
     contours = sorted(contours, key=cv2.contourArea, reverse=True)
     return contours
 
