@@ -8,6 +8,9 @@ import math
 LOW_GREEN = [0,0,200]
 HIGH_GREEN = [100,255,255]
 
+class ImageNotDetectedException:
+    pass
+
 #BGR image, HSV colors ---> masked image (no noise)
 def bit_color(image, color_low, color_high) :
     hsv = cv2.cvtColor (image, cv2.COLOR_BGR2HSV)
@@ -26,7 +29,7 @@ def getContours(image):
     try:
         contours, hierarchy = cv2.findContours(image,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
     except:
-        img, contours, hierarchy = cv2.findContours(image,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)        
+        img, contours, hierarchy = cv2.findContours(image,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
     contours = sorted(contours, key=cv2.contourArea, reverse=True)
     return contours
 
@@ -96,25 +99,25 @@ def order_points(pts):
     return rect
 
 #Set of Ordered Points -----> x value of center line
-def getCenterLine(OrderedPoints):
+def getCenterX(OrderedPoints):
     w = getWidth(OrderedPoints)
     center = OrderedPoints[3][0] + w/2
     return center
 
-def distanceFromCenter(OrderedPoints):
-    return 350 - getCenterLine(OrderedPoints)
+def distanceFromCenterX(centerX, OrderedPoints):
+    return centerX - getCenterX(OrderedPoints)
 
 
 #Set of Ordered Points -----> y value of center line
-def getVerticalMiddleLine(OrderedPoints):
+def getCenterY(OrderedPoints):
     lh, rh = GetHeightLeftRight(OrderedPoints)
     h = (lh + rh)/2
     center = OrderedPoints[0][1] + h/2
     return center
 
 
-def distanceFromMiddleLine(OrderedPoints):
-    return 500 - getVerticalMiddleLine(OrderedPoints)
+def distanceFromCenterY(centerY, OrderedPoints):
+    return centerY - getCenterY(OrderedPoints)
 
 
 #Masked Image, original Image ----> Draws corners on OriginalImage,returns the corners
