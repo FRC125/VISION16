@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 import math
 
+
 #Green
 #LOW_GREEN = [50, 100, 100]
 #HIGH_GREEN = [90, 255, 255]
@@ -11,6 +12,9 @@ import math
 #Yellow
 LOW_GREEN = [20,50,80]
 HIGH_GREEN = [80,255,255]
+class ImageNotDetectedException:
+    pass
+
 class ImageNotDetectedException:
     pass
 
