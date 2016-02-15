@@ -1,6 +1,9 @@
 import numpy as np
 import cv2
 import math
+from sys import argv
+import getData
+import csv
 
 #LOW_GREEN = [50, 100, 100]
 #HIGH_GREEN = [90, 255, 255]
@@ -116,3 +119,38 @@ def rejectShape(contour):
         return False
     return True
 
+def parse_file_name(name):
+    # Here be Dragons...
+    return name[len(name)-name[::-1].index("/"):name.index(".png")]
+
+def parse_name_values(name):
+    return [int(name[:name.index("f")]),int(name[name.index("t")+1:])]
+
+
+if __name__ == "__main__":
+    file = open('output.csv','wb')
+    csvwriter = csv.writer(file, delimiter=',', quotechar='\"', quoting=csv.QUOTE_ALL)
+    csvwriter.writerow(['feet','angle','value'])
+    reference_img = cv2.imread("7ft0.png")
+    reference_img = resize(reference_img, 1000, 700)
+    reference_mask = bit_color(reference_img, LOW_WHITE, HIGH_WHITE)
+
+    img_files = getData.getFileNames(getData.DATA_FOLDER)
+    comparison_img = {}
+    for img_file in img_files:
+        comparison_img[img_file] = bit_color(resize(cv2.imread(img_file),1000,700), LOW_WHITE, HIGH_WHITE)
+
+    for img_file,img in comparison_img.iteritems():
+        img_file_short_name = parse_file_name(img_file)
+        img_comparison_value = ""
+        try:
+            img_comparison_value = str(compareObjectCenters(img,reference_mask))
+        except:
+            print(img_file_short_name + " unparsable")
+            continue
+        print(img_file_short_name + " : " + img_comparison_value)
+        row = parse_name_values(img_file_short_name)
+        row.append(img_comparison_value)
+        csvwriter.writerow(row);
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()

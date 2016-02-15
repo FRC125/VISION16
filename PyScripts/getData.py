@@ -5,7 +5,7 @@ import cv2
 import glob, os
 
 # Give the name of the folder where the pics are
-DATA_FOLDER = "../graphics/directAtWall"
+DATA_FOLDER = "../Desktop/directAtWall"
 
 LOW_WHITE = np.array([0,0,250])
 HIGH_WHITE = np.array([0,0,255])
