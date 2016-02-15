@@ -7,11 +7,13 @@ import math
 #LOW_GREEN = [50, 100, 100]
 #HIGH_GREEN = [90, 255, 255]
 #white
-#LOW_GREEN = [0,0,200]
-#HIGH_GREEN = [100,255,255]
+LOW_GREEN = [0,0,200]
+HIGH_GREEN = [100,255,255]
 #Yellow
-LOW_GREEN = [20,50,80]
-HIGH_GREEN = [80,255,255]
+#LOW_GREEN = [20,50,80]
+#HIGH_GREEN = [80,255,255]
+THETA = 45
+
 class ImageNotDetectedException:
     pass
 
@@ -130,7 +132,13 @@ def getCenterY(OrderedPoints):
 def distanceFromCenterY(centerY, OrderedPoints):
     return centerY - getCenterY(OrderedPoints)
 
-
+def findAngle(OrderedCorners):
+    h = distanceFromCenterY(1000, OrderedCorners)
+    x = h / math.tan(THETA)
+    d = distanceFromCenterX(350, OrderedCorners)
+    angle = math.atan(d/x)
+    return angle
+    
 #Masked Image, original Image ----> Draws corners on OriginalImage,returns the corners
 def drawCorners(maskedImage,binImage):
     drawnCorners = []
