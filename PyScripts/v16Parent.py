@@ -3,10 +3,17 @@ import cv2
 import math
 
 
+#Green
 #LOW_GREEN = [50, 100, 100]
 #HIGH_GREEN = [90, 255, 255]
-LOW_GREEN = [0,0,200]
-HIGH_GREEN = [100,255,255]
+#white
+#LOW_GREEN = [0,0,200]
+#HIGH_GREEN = [100,255,255]
+#Yellow
+LOW_GREEN = [20,50,80]
+HIGH_GREEN = [80,255,255]
+class ImageNotDetectedException:
+    pass
 
 class ImageNotDetectedException:
     pass
@@ -17,6 +24,7 @@ def bit_color(image, color_low, color_high) :
     l_green = np.array(color_low)
     u_green = np.array(color_high)
     mask = cv2.inRange (hsv, l_green, u_green)
+    cv2.imshow("Mask",mask)
     return mask
 
 #Image, width, height----->Resized Image using scale to preserve aspect ratio
@@ -37,15 +45,18 @@ def getContours(image):
 def getCorners(binImage):
     contours = getContours(binImage)
     x = 0
-    while(x < len(contours) and not rejectShape(contours[x])):
-        x = x+1
-    if(not(x == len(contours))):
-        convexHull = cv2.convexHull(contours[x])
-        #hull = cv2.approxPolyDP(convexHull,1,True)
-        for i in range(100):
-            corners = cv2.approxPolyDP(convexHull, i, True)
-            if len(corners) == 4:
-                return corners.squeeze()
+    while(x < len(contours)):
+        if(not goodSize(contours[x])):
+            x = x+1
+        else:
+            convexHull = cv2.convexHull(contours[x])
+            #hull = cv2.approxPolyDP(convexHull,1,True)
+            for i in range(100):
+                corners = cv2.approxPolyDP(convexHull, i, True)
+                if len(corners) == 4:
+                    corners = corners.squeeze()
+                    if(goodShape(corners)):
+                        return corners
     raise ImageNotDetectedException
 
 #Slope of two top Points -----> Angle
@@ -131,7 +142,21 @@ def drawCorners(maskedImage,binImage):
     return drawnCorners
 
 #Contour ---> returns Boolean if the contour is large enough
-def rejectShape(contour):
+def goodSize(contour):
     if(cv2.contourArea(contour) < 200):
+        return False
+    return True
+
+#corners ---> returns Boolean if the contour is right size
+def goodShape(corners):
+    corners = order_points(corners)
+    lHeight, rHeight = GetHeightLeftRight(corners)
+    height = (lHeight + rHeight) / 2
+    wid = getWidth(corners)
+    rat = max(wid / height, height / wid)
+    heightRat = max(lHeight / rHeight, rHeight / lHeight)  
+    if(rat > 4):
+        return False
+    if(heightRat > 2):
         return False
     return True
