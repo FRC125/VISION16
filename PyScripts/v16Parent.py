@@ -27,7 +27,7 @@ def resize(im, width, height):
 
 #image -----> array of contours
 def getContours(image):
-    img, contours, hierarchy = cv2.findContours(image,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+    contours, hierarchy = cv2.findContours(image,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
     contours = sorted(contours, key=cv2.contourArea, reverse=True)
     return contours
 
@@ -104,6 +104,19 @@ def getCenterLine(OrderedPoints):
 
 def distanceFromCenter(OrderedPoints):
     return 350 - getCenterLine(OrderedPoints)
+
+
+#Set of Ordered Points -----> y value of center line
+def getVerticalMiddleLine(OrderedPoints):
+    lh, rh = GetHeightLeftRight(OrderedPoints)
+    h = (lh + rh)/2
+    center = OrderedPoints[0][1] + h/2
+    return center
+
+
+def distanceFromMiddleLine(OrderedPoints):
+    return 500 - getVerticalMiddleLine(OrderedPoints)
+
 
 #Masked Image, original Image ----> Draws corners on OriginalImage,returns the corners
 def drawCorners(maskedImage,binImage):
