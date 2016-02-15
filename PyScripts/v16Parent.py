@@ -24,7 +24,6 @@ def bit_color(image, color_low, color_high) :
     l_green = np.array(color_low)
     u_green = np.array(color_high)
     mask = cv2.inRange (hsv, l_green, u_green)
-    cv2.imshow("Mask",mask)
     return mask
 
 #Image, width, height----->Resized Image using scale to preserve aspect ratio
@@ -57,6 +56,8 @@ def getCorners(binImage):
                     corners = corners.squeeze()
                     if(goodShape(corners)):
                         return corners
+                    else:
+                        x = x+1
     raise ImageNotDetectedException
 
 #Slope of two top Points -----> Angle
@@ -154,7 +155,7 @@ def goodShape(corners):
     height = (lHeight + rHeight) / 2
     wid = getWidth(corners)
     rat = max(wid / height, height / wid)
-    heightRat = max(lHeight / rHeight, rHeight / lHeight)  
+    heightRat = max(lHeight / rHeight, rHeight / lHeight)
     if(rat > 4):
         return False
     if(heightRat > 2):
