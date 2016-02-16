@@ -3,7 +3,7 @@ from v16Parent import *
 
 #Read and resize the two images
 
-img = cv2.imread("IMG_0856.png",0)
+im = resize(cv2.imread("/Users/MichaelLaposata/Desktop/directAtWall/photo 3.jpg"),1000,700)
 
 
 #Thresh using the Low and High limits and remove noise
@@ -16,16 +16,18 @@ cv2.imshow("im", img)
 OrderInitCorners = order_points(np.array(corners))
 lr = LOW_THRESHOLDLeftRight(OrderInitCorners)
 #allows the code to not throw an error if the image does not contain a target
-try:
+#try:
 
-    slope = getSlope(OrderInitCorners)
-    width = getWidth(OrderInitCorners)
-    theta = getAngle(slope)
-    distance = getDistance(width,30)
-    print("height LR",lr)
-    print("width",width)
-except:
-    print("fail")
+slope = getSlope(OrderInitCorners)
+width = getWidth(OrderInitCorners)
+theta = getAngle(slope)
+angle = findAngle(OrderInitCorners)*180/math.pi
+distance = getDistance(width,30)
+print("angle",angle)
+print("distance",distance)
+print("theta",theta)
+#except:
+#    print("fail")
 
 cv2.waitKey(0)
 cv2.destroyAllWindows()
