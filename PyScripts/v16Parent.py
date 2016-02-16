@@ -13,10 +13,6 @@ HIGH_GREEN = [255,255,255]
 # LOW_GREEN = [20,50,80]
 # HIGH_GREEN = [80,255,255]
 
-
-class ImageNotDetectedException:
-    pass
-
 class ImageNotDetectedException:
     pass
 
