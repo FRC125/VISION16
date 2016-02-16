@@ -3,7 +3,7 @@ from v16Parent import *
 import math
 #Read and resize the two images
 
-im = resize(cv2.imread("/Users/MichaelLaposata/Desktop/directAtWall/6ft30.png"),1000,700)
+im = resize(cv2.imread("/Users/MichaelLaposata/Desktop/directAtWall/photo 3.jpg"),1000,700)
 
 
 #Thresh using the Low and High limits and remove noise
