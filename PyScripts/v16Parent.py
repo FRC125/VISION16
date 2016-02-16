@@ -67,20 +67,23 @@ def getCorners(binImage):
     d = 22.746
     return (a*math.tan((b*Slope)+c)+d)'''
 
-# r = 0.887
-angle_intercept = -1.0908
-angle_slope = 2.3214
+# r = 0.936
+# angle_intercept = -1.0908
+# angle_slope = 2.3214
+angle_intercept = -2.9628
+angle_slope = 4.7953
 def getAngle(aspect_ratio):
     return math.degrees(math.atan(angle_slope * aspect_ratio + angle_intercept))
 
-# r = 0.897
-angle_with_coeff_intercept = -0.46543
-angle_with_coeff_slope = 1.1143
-angle_with_coeff_coeff = 1.5506
-def getAngleWithCoeff(aspect_ratio):
-    return angle_with_coeff_coeff *
-        math.degrees(math.atan(angle_with_coeff_slope *
-                  aspect_ratio + angle_with_coeff_intercept))
+# r = 0.962
+# angle_with_coeff_intercept = -0.46543
+# angle_with_coeff_slope = 1.1143
+# angle_with_coeff_coeff = 1.5506
+angle_with_int_intercept = -9.389
+angle_with_int_slope = 15.927
+angle_with_int_2ndintercept = -35.951
+def getAngleWithInt(aspect_ratio):
+    return angle_with_int_int * math.degrees(math.atan(angle_with_int_slope * aspect_ratio + angle_with_int_intercept))
 
 #Width, Angle ------> Distance
 def getDistance(width,angle):
