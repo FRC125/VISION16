@@ -7,11 +7,13 @@ import math
 #LOW_GREEN = [50, 100, 100]
 #HIGH_GREEN = [90, 255, 255]
 #white
-#LOW_GREEN = [0,0,200]
-#HIGH_GREEN = [100,255,255]
+LOW_GREEN = [0,0,180]
+HIGH_GREEN = [255,255,255]
 #Yellow
-LOW_GREEN = [20,50,80]
-HIGH_GREEN = [80,255,255]
+# LOW_GREEN = [20,50,80]
+# HIGH_GREEN = [80,255,255]
+
+
 class ImageNotDetectedException:
     pass
 
@@ -61,12 +63,27 @@ def getCorners(binImage):
     raise ImageNotDetectedException
 
 #Slope of two top Points -----> Angle
-def getAngle(Slope):
+'''def getAngle(Slope):
     a = -21.537
     b = -2.5033
     c = 10.067
     d = 22.746
-    return (a*math.tan((b*Slope)+c)+d)
+    return (a*math.tan((b*Slope)+c)+d)'''
+
+# r = 0.887
+angle_intercept = -1.0908
+angle_slope = 2.3214
+def getAngle(aspect_ratio):
+    return math.degrees(math.atan(angle_slope * aspect_ratio + angle_intercept))
+
+# r = 0.897
+angle_with_coeff_intercept = -0.46543
+angle_with_coeff_slope = 1.1143
+angle_with_coeff_coeff = 1.5506
+def getAngleWithCoeff(aspect_ratio):
+    return angle_with_coeff_coeff *
+        math.degrees(math.atan(angle_with_coeff_slope *
+                  aspect_ratio + angle_with_coeff_intercept))
 
 #Width, Angle ------> Distance
 def getDistance(width,angle):

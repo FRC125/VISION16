@@ -53,13 +53,16 @@ for f in paths:
         continue
     l,r = GetHeightLeftRight(order_init_corners)
     avg = (l+r)/2
+    aratio = avg/getWidth(order_init_corners)
     # Add any data to the dictionary here and it will be put on csv
-    file_image_map[f]=[img,{'width': getWidth(order_init_corners),
+    file_image_map[f]=[img,{'aspect_ratio': aratio,
+     'estimate_angle': getAngle(aratio)}]
+'''{'width': getWidth(order_init_corners),
                             'height_left': l,
                             'height_right': r,
                             'height_avg': avg,
                             'rel_vertical': distanceFromCenterY(height/2,order_init_corners),
-                            'rel_horizontal': distanceFromCenterX(width/2,order_init_corners)}]
+                            'rel_horizontal': distanceFromCenterX(width/2,order_init_corners)}'''
 
 img_count = len(file_image_map)
 print(str(img_count) + ' image'+ (' was' if img_count == 1 else 's were') +' able to be processed')

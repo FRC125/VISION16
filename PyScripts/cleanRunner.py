@@ -3,29 +3,29 @@ from v16Parent import *
 
 #Read and resize the two images
 
-im = resize(cv2.imread("Name.png"),1000,700)
+img = cv2.imread("IMG_0856.png",0)
 
 
 #Thresh using the Low and High limits and remove noise
-initialMask = bit_color(im, LOW_GREEN, HIGH_GREEN)
+initialMask = bit_color(img, LOW_GREEN, HIGH_GREEN)
 
 #Draw the corners onto the image
-corners = drawCorners(initialMask,im)
+corners = drawCorners(initialMask,img)
 #Show the image
-cv2.imshow("im", im)
+cv2.imshow("im", img)
 OrderInitCorners = order_points(np.array(corners))
-GetHeightLeftRight(OrderInitCorners)
+lr = LOW_THRESHOLDLeftRight(OrderInitCorners)
 #allows the code to not throw an error if the image does not contain a target
 try:
-    
+
     slope = getSlope(OrderInitCorners)
     width = getWidth(OrderInitCorners)
     theta = getAngle(slope)
     distance = getDistance(width,30)
-    print("distance",distance)
-    print("theta",theta)
+    print("height LR",lr)
+    print("width",width)
 except:
     print("fail")
-    
+
 cv2.waitKey(0)
 cv2.destroyAllWindows()
