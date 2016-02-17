@@ -2,13 +2,14 @@ import numpy as np
 import cv2
 import math
 
-
 #Green
 #LOW_GREEN = [50, 100, 100]
 #HIGH_GREEN = [90, 255, 255]
+
 #white
 LOW_GREEN = [0,0,200]
 HIGH_GREEN = [100,255,255]
+
 #Yellow
 #LOW_GREEN = [20,50,80]
 #HIGH_GREEN = [80,255,255]
@@ -59,50 +60,51 @@ def getCorners(binImage):
                         x = x+1
     raise ImageNotDetectedException
 
-#Slope of two top Points -----> Angle
-'''def getAngle(Slope):
-    a = -21.537
-    b = -2.5033
-    c = 10.067
-    d = 22.746
-    return (a*math.tan((b*Slope)+c)+d)'''
-
-# r = 0.936
-# angle_intercept = -1.0908
-# angle_slope = 2.3214
-angle_intercept = -2.9628
-angle_slope = 4.7953
+#Aspect Ratio ----> angle between Robot and Target
 def getAngle(aspect_ratio):
-    return math.degrees(math.atan(angle_slope * aspect_ratio + angle_intercept))
+    # r = 0.936
+    intercept = -2.9628
+    slope = 4.7953
+    return math.degrees(math.atan(slope * aspect_ratio + intercept))
 
-# r = 0.962
-# angle_with_coeff_intercept = -0.46543
-# angle_with_coeff_slope = 1.1143
-# angle_with_coeff_coeff = 1.5506
-angle_with_int_intercept = -9.389
-angle_with_int_slope = 15.927
-angle_with_int_2ndintercept = -35.951
-def getAngleWithInt(aspect_ratio):
-    return angle_with_int_int * math.degrees(math.atan(angle_with_int_slope * aspect_ratio + angle_with_int_intercept))
+def getOffsetAngle(OrderedPoints):
+    centerX = getCenterX(OrderedPoints)
+    slope = 0.046875
+    intercept = -30
+    return (.046875*centerX)-30
 
-#Width, Angle ------> Distance
-def getDistance(width,angle):
-    ##VERIFY THE METHOD
-    return (-0.20543*width+ 2.837*(math.sin((26.96*angle)+1.9141))+24.311)
+#Ordered Corners ------> Distance
+def getDistance(OrderinitCorners):
+    centerHeight = getCenterHeight(OrderinitCorners)
+    return (0.0263*centerHeight) + 1.9824
+
+#Angle Between Robot and Target, Vertical Distance ------> Horizontal Offset Distance
+def getOffsetDistance(angle, distance):
+    return distance*math.cos(angle)
 
 #Corners ------> Left and Right Heights
-def GetHeightLeftRight(OrderinitCorners):
+def getHeightLeftRight(OrderinitCorners):
 
     LeftHeight = abs(OrderinitCorners[0][1]-OrderinitCorners[3][1])
     RightHeight = abs(OrderinitCorners[1][1]-OrderinitCorners[2][1])
 
     return (LeftHeight,RightHeight)
 
+#Height, Width ------> Aspect Ratio
+def getAspectRatio(height, width):
+    return height/width
+
+def getCenterHeight(OrderinitCorners):
+    rightCornerY = OrderinitCorners[2][1]
+    leftCornerY = OrderinitCorners[3][1]
+
+    return (rightCornerY+leftCornerY)/2
+
 #Corners------->Width
 def getWidth(OrderinitCorners):
-    return (abs(OrderinitCorners[2][0]-OrderinitCorners[3][0]))
+    return abs(OrderinitCorners[2][0]-OrderinitCorners[3][0])
 
-#Corners-----> slope of top two points
+#Corners-----> slope of the top two points (y2-y1)
 def getSlope(OrderinitCorners):
     p1x = OrderinitCorners[0][0]
     p1y = OrderinitCorners[0][1]
@@ -110,6 +112,7 @@ def getSlope(OrderinitCorners):
     p2y = OrderinitCorners[1][1]
 
     return ((p2y-p1y)/(p2x-p1x))
+
 #NumpyArray of corners -----> NumpyArray of corners in order
 def order_points(pts):
     rect = np.zeros((4, 2), dtype = "float32")
@@ -124,7 +127,7 @@ def order_points(pts):
     rect[1] = pts[np.argmin(diff)]
     rect[3] = pts[np.argmax(diff)]
 
-    #return the ordered coordinates (Top Left = 1, Top Right = 2, Bottom Right = 3, Bottom Left = 4)
+    #return the ordered coordinates (Top Left = 0, Top Right = 1, Bottom Right = 2, Bottom Left = 3)
     return rect
 
 #Set of Ordered Points -----> x value of center line
@@ -133,9 +136,9 @@ def getCenterX(OrderedPoints):
     center = OrderedPoints[3][0] + w/2
     return center
 
+#Center X Position, Ordered Points ------> distance from center
 def distanceFromCenterX(centerX, OrderedPoints):
     return centerX - getCenterX(OrderedPoints)
-
 
 #Set of Ordered Points -----> y value of center line
 def getCenterY(OrderedPoints):
@@ -144,21 +147,9 @@ def getCenterY(OrderedPoints):
     center = OrderedPoints[0][1] + h/2
     return center
 
-
+#Center Y-Position, Ordered Corners-------> Vertical distance from the the center.
 def distanceFromCenterY(centerY, OrderedPoints):
     return centerY - getCenterY(OrderedPoints)
-
-def findAngle(OrderedCorners):
-
-    h = distanceFromCenterY(1000, OrderedCorners)
-    x = h / math.tan(THETA)
-    d = distanceFromCenterX(350, OrderedCorners)
-    angle = math.atan(d/x)
-    print("h",h)
-    print("x",x)
-    print("d",d)
-    print("angle radians",angle)
-    return angle
 
 #Masked Image, original Image ----> Draws corners on OriginalImage,returns the corners
 def drawCorners(maskedImage,binImage):
@@ -179,7 +170,7 @@ def goodSize(contour):
 #corners ---> returns Boolean if the contour is right size
 def goodShape(corners):
     corners = order_points(corners)
-    lHeight, rHeight = GetHeightLeftRight(corners)
+    lHeight, rHeight = getHeightLeftRight(corners)
     height = (lHeight + rHeight) / 2
     wid = getWidth(corners)
     rat = max(wid / height, height / wid)
