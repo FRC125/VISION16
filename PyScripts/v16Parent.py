@@ -75,8 +75,8 @@ def getOffsetAngle(OrderedPoints):
 
 #Ordered Corners ------> Distance
 def getDistance(OrderinitCorners):
-    centerHeight = getCenterHeight(OrderinitCorners)
-    return (0.0263*centerHeight) + 1.9824
+    centerHeight = getCenterY(OrderinitCorners)
+    return (0.0157*centerHeight) + 4.2257
 
 #Angle Between Robot and Target, Vertical Distance ------> Horizontal Offset Distance
 def getOffsetDistance(angle, distance):
@@ -142,7 +142,7 @@ def distanceFromCenterX(centerX, OrderedPoints):
 
 #Set of Ordered Points -----> y value of center line
 def getCenterY(OrderedPoints):
-    lh, rh = GetHeightLeftRight(OrderedPoints)
+    lh, rh = getHeightLeftRight(OrderedPoints)
     h = (lh + rh)/2
     center = OrderedPoints[0][1] + h/2
     return center
