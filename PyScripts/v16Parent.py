@@ -71,7 +71,7 @@ def getOffsetAngle(OrderedPoints):
     centerX = getCenterX(OrderedPoints)
     slope = 0.046875
     intercept = -30
-    return (centerX*slope)-intercept
+    return (centerX*slope)+intercept
 
 #Ordered Corners ------> Distance
 def getDistance(OrderinitCorners):

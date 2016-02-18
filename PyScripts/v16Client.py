@@ -6,8 +6,6 @@ camera_port = 0
 
 cap = cv2.VideoCapture(camera_port)
 
-#If issues stem, change Height and Width Settings (Preserve Aspect Ratio)
-
 cap.set(3, 1280) #Set the width important because the default will timeout
 cap.set(4, 960) #Set the height (ignore the errors printed to the console)
 
@@ -35,7 +33,6 @@ while True:
 
         LeftHeight, RightHeight = getHeightLeftRight(OrderInitCorners)
         avgHeight = (LeftHeight+RightHeight)/2
-        slope = getSlope(OrderInitCorners)
         width = getWidth(OrderInitCorners)
         aspectRatio = getAspectRatio(avgHeight, width)
         theta = getAngle(aspectRatio)
@@ -47,12 +44,11 @@ while True:
 
         print("Distance From Target",distance)
         Server.setDistance(distance)
-        print("Angle Between Robot and Target",theta)
         print("Offset Angle", offsetAngle)
         Server.setOffsetAngle(offsetAngle)
-        print("Offset Horizontal Distance", offsetDistance)
         
     except ImageNotDetectedException:
+        print("Can't See")
         Server.canSee()
 
         
