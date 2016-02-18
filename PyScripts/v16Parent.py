@@ -15,6 +15,10 @@ HIGH_GREEN = [100,255,255]
 #HIGH_GREEN = [80,255,255]
 THETA = 70
 
+FOV = 60.0
+
+camera_width = 1280
+
 class ImageNotDetectedException:
     pass
 
@@ -69,9 +73,9 @@ def getAngle(aspect_ratio):
 
 def getOffsetAngle(OrderedPoints):
     centerX = getCenterX(OrderedPoints)
-    slope = 0.046875
-    intercept = -30
-    return (centerX*slope)-intercept
+    slope = FOV/camera_width
+    intercept = -FOV/2
+    return (centerX*slope)+intercept
 
 #Ordered Corners ------> Distance
 def getDistance(OrderinitCorners):
