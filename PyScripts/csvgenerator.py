@@ -17,8 +17,7 @@ width = 1280
 height = 960
 
 output_file = sys.argv[2]
-input_folder = sys.argv[1
-]
+input_folder = sys.argv[1]
 paths = glob(input_folder+sep+'*.png')
 
 file_image_map = {}
