@@ -11,13 +11,17 @@ Sources: OpenCV
 	Method: getDistance()
 
 	Parameters: OrderInitCorners
+	
+	Returns: Distance from robot to target (feet)
 
-		•Corners of processed image in order, starting with top right and goes clockwise
+		•OrderInitCorners = Corners of the target in order, starting with top left and continuing clockwiswe
 
 ##Offset Angle:
 
 	Method: getOffsetAngle()
 
 	Parameters: OrderInitCorners
+	
+	Returns: Offset Angle to turn to (degrees)
 
-		•Corners of processed image in order, starting with top left and goes clockwise
+		•OrderInitCorners = Corners of the target in order, starting with top left and continuing clockwiswe
