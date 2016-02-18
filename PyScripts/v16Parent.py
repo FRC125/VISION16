@@ -60,8 +60,7 @@ def getCorners(binImage):
                     corners = corners.squeeze()
                     if(goodShape(corners)):
                         return corners
-                    else:
-                        x = x+1
+            x = x+1
     raise ImageNotDetectedException
 
 #Aspect Ratio ----> angle between Robot and Target
