@@ -7,7 +7,6 @@ cameraWidth = 960
 #Read and resize the two images (edit param to include respective path to image)
 img = resize(cv2.imread("Pics/DocExport1/10_20.png"),cameraHeight,cameraWidth)
 
-
 #Thresh using the Low and High limits and remove noise
 initialMask = bit_color(img, LOW_GREEN, HIGH_GREEN)
 
