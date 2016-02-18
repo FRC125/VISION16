@@ -4,7 +4,7 @@ Nutrons Vision 2016 Library (Python)
 
 Sources: OpenCV
 
-![diagram](http://imgur.com/i7HFLxW.png "Diagram of how VISION16 works")
+![diagram](http://imgur.com/D0tNQ3l "Diagram of how VISION16 works")
 
 ##Distance From Target:
 
