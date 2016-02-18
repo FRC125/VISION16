@@ -4,7 +4,7 @@ Nutrons Vision 2016 Library (Python)
 
 Sources: OpenCV
 
-[Image](http://bit.ly/1KqEmzr)
+![diagram](http://i.imgur.com/D0tNQ3l.png "Diagram of how VISION16 works")
 
 ##Distance From Target:
 
@@ -16,7 +16,7 @@ Sources: OpenCV
 
 ##Angle Between Robot and Target:
 
-Method: getAngle()
+	Method: getAngle()
 
 	Parameters: aspectRatio
 
@@ -24,15 +24,15 @@ Method: getAngle()
 
 ##Offset Angle:
 
-Method: getOffsetAngle()
+	Method: getOffsetAngle()
 
 	Parameters: OrderInitCorners
 
-		•Corners of processed image in order, starting with top right and goes clockwise
+		•Corners of processed image in order, starting with top left and goes clockwise
 
 ##Offset Horizontal Distance:
 
-Method: getOffsetDistance()
+	Method: getOffsetDistance()
 
 	Parameters: theta, distance
 
