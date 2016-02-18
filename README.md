@@ -14,14 +14,6 @@ Sources: OpenCV
 
 		•Corners of processed image in order, starting with top right and goes clockwise
 
-##Angle Between Robot and Target:
-
-	Method: getAngle()
-
-	Parameters: aspectRatio
-
-		•The ratio between the height and width of processed image
-
 ##Offset Angle:
 
 	Method: getOffsetAngle()
@@ -29,13 +21,3 @@ Sources: OpenCV
 	Parameters: OrderInitCorners
 
 		•Corners of processed image in order, starting with top left and goes clockwise
-
-##Offset Horizontal Distance:
-
-	Method: getOffsetDistance()
-
-	Parameters: theta, distance
-
-		•theta is Angle Between Robot and Target
-
-		•distance is Distance From Target
