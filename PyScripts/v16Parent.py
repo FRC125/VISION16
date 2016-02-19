@@ -6,6 +6,10 @@ import math
 LOW_THRESH = [50, 100, 100]
 HIGH_THRESH = [90, 255, 255]
 
+# Re-Calibrated Green: 2/19/16
+# LOW_THRESH = [60, 70, 175]
+# HIGH_THRESH = [75, 255, 255]
+
 #white
 #LOW_THRESH = [0,0,200]
 #HIGH_THRESH = [100,255,255]
