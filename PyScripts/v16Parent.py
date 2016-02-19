@@ -3,16 +3,16 @@ import cv2
 import math
 
 #Green
-#LOW_GREEN = [50, 100, 100]
-#HIGH_GREEN = [90, 255, 255]
+LOW_THRESH = [50, 100, 100]
+HIGH_THRESH = [90, 255, 255]
 
 #white
-LOW_GREEN = [0,0,200]
-HIGH_GREEN = [100,255,255]
+#LOW_THRESH = [0,0,200]
+#HIGH_THRESH = [100,255,255]
 
 #Yellow
-#LOW_GREEN = [20,50,80]
-#HIGH_GREEN = [80,255,255]
+#LOW_THRESH = [20,50,80]
+#HIGH_THRESH = [80,255,255]
 THETA = 70
 
 FOV = 60.0
@@ -25,9 +25,9 @@ class ImageNotDetectedException:
 #BGR image, HSV colors ---> masked image (no noise)
 def bit_color(image, color_low, color_high) :
     hsv = cv2.cvtColor (image, cv2.COLOR_BGR2HSV)
-    l_green = np.array(color_low)
-    u_green = np.array(color_high)
-    mask = cv2.inRange (hsv, l_green, u_green)
+    l_thresh = np.array(color_low)
+    u_thresh = np.array(color_high)
+    mask = cv2.inRange (hsv, l_thresh, u_thresh)
     return mask
 
 #Image, width, height----->Resized Image using scale to preserve aspect ratio

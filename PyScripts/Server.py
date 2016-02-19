@@ -1,22 +1,13 @@
 import time
 import logging
-from networktables import NetworkTable
+import socket
 
-logging.basicConfig(level=logging.DEBUG)
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
 
-IP = '10.1.25.2'
-NetworkTable.setIPAddress(IP)
-NetworkTable.setClientMode()
+IP = '10.1.25.72'
+socketNO = 8125
 
-sd = NetworkTable.getTable("vision")
 
-def setDistance(distance):
-    sd.putNumber("distance", distance)
 
-def setOffsetAngle(offsetAngle):
-    sd.putNumber("offsetAngle", offsetAngle)
-
-def canSee():
-    #If Target not visible, set the distance and angle to 5000
-    setDistance(5000)
-    setOffsetAngle(5000)
+def sendString(data):
+    sock.sendto(data,(IP,socketNO))

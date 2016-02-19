@@ -1,6 +1,6 @@
 import cv2
 from v16Parent import *
-import Server
+from Server import *
 
 camera_port = 0
 
@@ -21,7 +21,7 @@ while True:
         img = get_image()
 
         #Thresh using the Low and High constant limits to remove noise
-        initialMask = bit_color(img, LOW_GREEN, HIGH_GREEN)
+        initialMask = bit_color(img, LOW_THRESH, HIGH_THRESH)
 
         #Draw the corners onto the image
         corners = drawCorners(initialMask,img)
@@ -39,19 +39,15 @@ while True:
         offsetAngle = getOffsetAngle(OrderInitCorners)
         distance = getDistance(OrderInitCorners)
         offsetDistance = getOffsetDistance(theta,distance)
-
         
-
         print("Distance From Target",distance)
-        Server.setDistance(distance)
         print("Offset Angle", offsetAngle)
-        Server.setOffsetAngle(offsetAngle)
-        
+
+        sendString(str(offsetAngle))
+
     except ImageNotDetectedException:
         print("Can't See")
-        Server.canSee()
+        sendString(str(5000))
 
-        
-        
-
+                
 del(cap)
