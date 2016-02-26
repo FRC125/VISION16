@@ -3,6 +3,7 @@ from v16Parent import *
 from Server import *
 
 camera_port = 0
+offset_angle_moving_avg = 0
 
 cap = cv2.VideoCapture(camera_port)
 
@@ -42,8 +43,9 @@ while True:
         
         print("Distance From Target",distance)
         print("Offset Angle", offsetAngle)
-
-        sendString(str(offsetAngle))
+        offset_angle_moving_avg *= 0.9
+        offset_angle_moving_avg += 0.1 * offsetAngle
+        sendString(str(offset_angle_moving_avg))
 
     except ImageNotDetectedException:
         print("Can't See")
